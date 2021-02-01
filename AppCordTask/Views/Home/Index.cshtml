@@ -1,0 +1,45 @@
+﻿@model AppCordTask.Models.AddPhoneNumberMessageInputViewModel
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <form action="@Url.Action("SendMessageToPhone","Home")" method="post">
+            <div asp-validation-summary="All" class="text-danger"></div>
+            @Html.LabelFor(phoneMessage => phoneMessage.Message, "Message Content")
+            @Html.TextAreaFor(phoneMessage => phoneMessage.Message, new { @class = "form-control", @Id = "MsgContent" })
+            @Html.ValidationMessageFor(phoneMessage => phoneMessage.Message, "", new { @class = "text-danger" })
+            <input type="submit" value="Send" class="btn btn-success" />
+            <input id="CancelSend" type="button" value="Cancel" class="btn btn-danger" />
+        </form>
+    </div>
+</div>
+<br />
+@if ((string)TempData["Referrer"] == "SaveRegister")
+{
+    <div class="alert alert-success alert-dismissible">
+        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        <strong>You have send message successfully</strong>
+    </div>
+}
+@if ((string)TempData["Referrer"] == "Done")
+{
+    <div class="alert alert-secondary alert-dismissible">
+        <a href="#" onclick="" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        <strong>no more phones to send u finish sending to 100 phone</strong>
+    </div>
+}
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            $(".close").click(function () {
+                $("#MsgContent").val("");
+            });
+            $("#CancelSend").click(function () {
+                $("#MsgContent").val("");
+                $(".alert").attr("display", "none");
+            });
+        });
+    </script>
+}
